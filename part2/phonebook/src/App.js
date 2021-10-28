@@ -38,18 +38,25 @@ const App = () => {
               return p;
             })
             setPersons(withUpdated);
-            setDisposableNotification({message: `Updated ${updatedPerson.name} number`, success: true});
+            setDisposableNotification({ message: `Updated ${updatedPerson.name} number`, success: true });
           })
-          .catch(() => setDisposableNotification({message: `Information of ${updatedPerson.name} has already been removed from server`, success: false}));
+          .catch(error => {
+            setDisposableNotification({message: error.response.data.error, success: false})
+          });
       }
     } else {
       const newPerson = { name: newName, number: newNumber };
-      personService.add(newPerson).then((newPersonSaved) => {
-        setPersons(persons.concat(newPersonSaved));
-        setNewName('');
-        setNewNumber('');
-        setDisposableNotification({message: `Added ${newPersonSaved.name}`, success: true});
-      })
+      personService.add(newPerson)
+        .then((newPersonSaved) => {
+          setPersons(persons.concat(newPersonSaved));
+          setNewName('');
+          setNewNumber('');
+          setDisposableNotification({ message: `Added ${newPersonSaved.name}`, success: true });
+        })
+        .catch(error => {
+          console.log('kek', error);
+          setDisposableNotification({ message: error.response.data.error, success: false })
+        })
     }
   }
 
