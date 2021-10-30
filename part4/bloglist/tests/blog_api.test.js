@@ -37,8 +37,6 @@ beforeAll(async () => {
 })
 
 
-
-
 test('should return all blogs', async () => {
     const result = await api.get('/api/blogs')
         .expect(200)
@@ -106,6 +104,17 @@ test('if the likes property is missing from the request, it will default to the 
     expect(savedBlog.likes).toBe(0)
 })
 
+test('if the title and url are missing from the data, the backend responds with code 400 Bad Request', async () => {
+
+    const newBlog = {
+        likes: 1,
+        author: 'New Writer'
+    };
+
+    const r = await api.post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+})
 
 
 afterAll(() => mongoose.connection.close())
