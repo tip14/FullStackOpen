@@ -46,6 +46,33 @@ const mostBlogs = (blogs) => {
     return {author: a, blogs: c}
 }
 
+const mostLikes = (blogs) => {
+    const authorLikesCount = _collection.reduce(blogs, (result, blog) => {
+        if(!result[blog.author]) {
+            result[blog.author] = blog.likes;
+        } else {
+            result[blog.author] += blog.likes;
+        }
+        return result;
+    }, {})
+
+    let a;
+    let c;
+    for(const author in authorLikesCount) {
+        if(!a && !c) {
+            a = author;
+            c = authorLikesCount[author];
+        } else {
+            if(authorLikesCount[author] > c) {
+                a = author;
+                c = authorLikesCount[author];
+            }
+        }
+    }
+
+    return {author: a, likes: c}
+}
+
 module.exports = {
-    dummy, totalLikes, favoriteBlog, mostBlogs
+    dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
