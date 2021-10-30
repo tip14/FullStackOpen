@@ -111,6 +111,29 @@ describe('Create opearations tests', () => {
     })
 });
 
+describe('Update operations tests', () => {
+    test('should update only likes, ignoring other properties', async () => {
+        const responseWithBlogs = await api.get('/api/blogs');
+        const savedBlogs = responseWithBlogs.body;
+        const firstBlog = savedBlogs[0];
+        const idToUpdate = firstBlog.id;
+        const updateData = {likes: 999, author: "Keks"}
+
+        const responseWithUpdatedBlog = await api.put(`/api/blogs/${idToUpdate}`)
+            .send(updateData)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        const updatedBlog = responseWithUpdatedBlog.body
+
+        expect(updatedBlog.id).toBe(firstBlog.id)
+        expect(updatedBlog.author).toBe(firstBlog.author)
+        expect(updatedBlog.title).toBe(firstBlog.title)
+        expect(updatedBlog.url).toBe(firstBlog.url)
+        expect(updatedBlog.likes).toBe(updateData.likes)
+
+    })
+})
 
 describe('Delete operations tests', () => {
     test('should delete blog by id', async () => {
