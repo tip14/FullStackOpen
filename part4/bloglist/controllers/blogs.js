@@ -14,6 +14,7 @@ blogsRouter.post('/', (request, response) => {
 
     if (!blog.title && !blog.url) {
         response.status(400).send()
+        return;
     }
 
     if (!blog.likes) {
@@ -25,6 +26,11 @@ blogsRouter.post('/', (request, response) => {
         .then(result => {
             response.status(201).json(result)
         });
+})
+
+blogsRouter.delete('/:id', async (request, response) => {
+    await Blog.findByIdAndDelete(request.params.id)
+    response.status(204).send()
 })
 
 
