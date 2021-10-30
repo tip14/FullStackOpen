@@ -88,6 +88,24 @@ test('should save new blog to the database', async () => {
     expect(blogsCountAfterAddingNewOne).toBe(blogsCountBeforeAddingNewOne + 1)
 })
 
+test('if the likes property is missing from the request, it will default to the value 0', async () => {
+
+    const newBlog = {
+        title: 'Blog without likes',
+        url: 'https://newbeetest.com',
+        author: 'New Writer',
+    };
+
+    const result = await api.post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+
+    const savedBlog = result.body
+
+    expect(savedBlog.likes).toBeDefined()
+    expect(savedBlog.likes).toBe(0)
+})
+
 
 
 afterAll(() => mongoose.connection.close())
