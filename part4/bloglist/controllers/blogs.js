@@ -52,11 +52,12 @@ blogsRouter.delete('/:id', async (request, response) => {
     if (!request.user) {
         return response.status(401).json({ error: 'token missing or invalid' })
     }
-
+    console.log('in delete 1')
     const foundBlog = await Blog.findById(request.params.id)
     if (!foundBlog.user || foundBlog.user.toString() !== request.user) {
         return response.status(401).json({ error: 'only author could delete blog' })
     }
+    console.log('in delete 2')
     await Blog.findByIdAndDelete(request.params.id)
     response.status(204).send()
 

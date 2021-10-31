@@ -3,28 +3,47 @@ const supertest = require('supertest')
 const api = supertest(app)
 const mongoose = require('mongoose')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
+let token;
+let userId;
+let initialBlogs;
 
-const initialBlogs = [
-    {
-        title: 'How to test with supertest',
-        url: 'https://newbeetest.com',
-        author: 'John Walker',
-        likes: 56,
-    },
-    {
-        title: '5 tips for testing Node.js app',
-        url: 'https://newbeetest.com',
-        author: 'John Walker',
-        likes: 105,
-    },
-    {
-        title: 'Make Jest your friend',
-        url: 'https://newbeetest.com',
-        author: 'Sandra Ostin',
-        likes: 87,
-    }
-]
+beforeAll(async () => {
+    await User.deleteMany({})
+    const testUser = {username: "testuser", password: "12345678"};
+    const savedUser = await api.post('/api/users').send(testUser)
+    userId = savedUser.body.id
+    console.log('saved test user', savedUser.body)
+    const loggedUser = await api.post("/api/login").send(testUser)
+    console.log('logged in', loggedUser.body)
+    token = loggedUser.body.token
+    console.log('get token', token)
+
+    initialBlogs = [
+        {
+            title: 'How to test with supertest',
+            url: 'https://newbeetest.com',
+            author: 'John Walker',
+            likes: 56,
+            user: userId
+        },
+        {
+            title: '5 tips for testing Node.js app',
+            url: 'https://newbeetest.com',
+            author: 'John Walker',
+            likes: 105,
+            user: userId
+        },
+        {
+            title: 'Make Jest your friend',
+            url: 'https://newbeetest.com',
+            author: 'Sandra Ostin',
+            likes: 87,
+            user: userId
+        }
+    ]
+})
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -53,6 +72,14 @@ describe('Read operations tests', () => {
 
 describe('Create opearations tests', () => {
 
+
+    test('should return 401 if token is not provided', async () => {
+
+        await api.post('/api/blogs')
+            .send({})
+            .expect(401)
+    })
+
     test('if the title and url are missing from the data, the backend responds with code 400 Bad Request', async () => {
 
         const newBlog = {
@@ -61,6 +88,7 @@ describe('Create opearations tests', () => {
         };
 
         const r = await api.post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(400)
     })
@@ -74,6 +102,7 @@ describe('Create opearations tests', () => {
         };
 
         const result = await api.post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
 
@@ -93,6 +122,7 @@ describe('Create opearations tests', () => {
         };
 
         const result = await api.post('/api/blogs')
+            .set('Authorization', `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
 
@@ -138,16 +168,18 @@ describe('Update operations tests', () => {
 describe('Delete operations tests', () => {
     test('should delete blog by id', async () => {
 
-        const response = await api.get('/api/blogs');
+        const response = await api.get('/api/blogs').set('Authorization', `Bearer ${token}`);
         const savedBlogs = response.body;
         const idToDelete = savedBlogs[0].id;
 
+        console.log('rsp', idToDelete)
 
         await api.delete(`/api/blogs/${idToDelete}`)
+            .set('Authorization', `Bearer ${token}`)
             .expect(204)
 
 
-        const responseAfterDelete = await api.get('/api/blogs');
+        const responseAfterDelete = await api.get('/api/blogs').set('Authorization', `Bearer ${token}`);
         const allBlogsFromDatabase = responseAfterDelete.body;
 
         expect(allBlogsFromDatabase.length).toBe(initialBlogs.length - 1);

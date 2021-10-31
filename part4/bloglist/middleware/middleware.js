@@ -2,6 +2,7 @@ const {response} = require("express");
 const jwt = require("jsonwebtoken");
 const tokenExtractor = (request, response, next) => {
     const authorization = request.get('authorization')
+    console.log('auttttttt', authorization)
     if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
         request.token = authorization.substring(7)
     }
