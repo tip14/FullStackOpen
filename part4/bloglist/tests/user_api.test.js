@@ -79,6 +79,57 @@ describe('Create operations tests', () => {
         expect(savedUser.id).toBeDefined();
 
     })
+
+    test('should not save user without username', async () => {
+
+        const newUser = {
+            name: 'New User',
+            password: "hardToGuessPass123"
+        }
+
+        await api.post('/api/users')
+            .send(newUser)
+            .expect(400)
+    })
+
+    test('should not save user with short username', async () => {
+
+        const newUser = {
+            name: 'New User',
+            username: 'kk',
+            password: "hardToGuessPass123"
+        }
+
+        await api.post('/api/users')
+            .send(newUser)
+            .expect(400)
+    })
+
+
+    test('should not save user without password', async () => {
+
+        const newUser = {
+            name: 'New User',
+            username: 'newuser'
+        }
+
+        await api.post('/api/users')
+            .send(newUser)
+            .expect(400)
+    })
+
+    test('should not save user with too short password', async () => {
+
+        const newUser = {
+            name: 'New User',
+            username: 'newuser',
+            password: '11'
+        }
+
+        await api.post('/api/users')
+            .send(newUser)
+            .expect(400)
+    })
 })
 
 afterAll(() => mongoose.connection.close())
