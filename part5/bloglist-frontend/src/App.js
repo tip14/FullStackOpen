@@ -16,6 +16,13 @@ const App = () => {
         )
     }, [])
 
+    useEffect(() => {
+        const userDataString = window.localStorage.getItem('userData');
+        if (userDataString) {
+            setUser(JSON.parse(userDataString))
+        }
+    }, []);
+
     const onUsernameChange = (event) => {
         setUsername(event.target.value)
     }
@@ -27,6 +34,7 @@ const App = () => {
         event.preventDefault()
         const user = await loginService.login({username, password});
         if (user) {
+            window.localStorage.setItem('userData', JSON.stringify(user))
             setUser(user)
             setUsername('')
             setPassword('')
