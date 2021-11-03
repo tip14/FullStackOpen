@@ -39,11 +39,16 @@ const App = () => {
             setUsername('')
             setPassword('')
         }
+    }
 
+    const onLogout = (event) => {
+        event.preventDefault()
+        window.localStorage.removeItem('userData')
+        setUser(null)
     }
 
     if (user) {
-        return <BlogList blogs={blogs} user={user} />
+        return <BlogList blogs={blogs} user={user} logout={onLogout} />
     } else {
         return <LoginForm username={username} password={password} onSubmitLoginForm={onSubmitLoginForm}
                    onPasswordChange={onPasswordChange} onUsernameChange={onUsernameChange}/>

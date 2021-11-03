@@ -1,5 +1,5 @@
-const UserInfo = ({user}) => {
-    return <p>{user.name} logged in</p>
+const UserInfo = ({user, logout}) => {
+    return <p>{user.name} logged in <button onClick={logout}>logout</button></p>
 }
 
 export default UserInfo
