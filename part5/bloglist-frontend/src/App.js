@@ -95,6 +95,16 @@ const App = () => {
         setBlogs(blogsWithUpdated);
     }
 
+    const removeBlog = async (blog) => {
+        const confirm = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
+        if (confirm) {
+            await blogService.deleteBlog(blog.id, user.token)
+            const updatedBlogs = blogs.filter(b => b.id !== blog.id);
+            setBlogs(updatedBlogs)
+            setDisposableNotification({message:`Blog ${blog.title} by ${blog.author} was removed`, success: true})
+        }
+    }
+
 
 
     if (user) {
@@ -106,7 +116,7 @@ const App = () => {
                 <Togglable buttonLabel="create new blog" ref={createBlogRef}>
                     <CreateBlog saveBlog={saveBlog}/>
                 </Togglable>
-                <BlogList blogs={blogs} addLike={addLike}/>
+                <BlogList blogs={blogs} addLike={addLike} removeBlog={removeBlog}/>
             </>
         )
     } else {

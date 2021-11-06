@@ -24,6 +24,11 @@ button {
     border-radius: 5px;
 }
 
+.button_red {
+    background-color: #c61e1e;
+    color: white;
+}
+
 button:hover {
     cursor: pointer;
 }
