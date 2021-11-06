@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import blogService from './services/blogs'
 import LoginForm from "./components/LoginForm";
 import loginService from "./services/login";
@@ -6,6 +6,7 @@ import BlogList from "./components/BlogList";
 import UserInfo from "./components/UserInfo";
 import CreateBlog from "./components/CreateBlog";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 
 const App = () => {
@@ -39,7 +40,7 @@ const App = () => {
         event.preventDefault()
 
         try {
-            const user = await loginService.login({ username, password });
+            const user = await loginService.login({username, password});
             if (user) {
                 window.localStorage.setItem('userData', JSON.stringify(user))
                 setUser(user)
@@ -65,47 +66,20 @@ const App = () => {
         setTimeout(() => setNotification({}), 5000)
     }
 
+    const createBlogRef = useRef()
 
-    /*
-    Blog form
-     */
+    const saveBlog = async (newBlog) => {
+        const createdBlog = await blogService.createBlog(newBlog, user.token)
+        const updatedBlogs = blogs.concat(createdBlog)
+        setBlogs(updatedBlogs);
 
-    const [title, setTitle] = useState('');
-    const [url, setUrl] = useState('');
-    const [author, setAuthor] = useState('');
+        createBlogRef.current.toggle()
 
-    const blogFormDataHolder = {
-        title: title,
-        url: url,
-        author: author,
-        onTitleChange: (e) => setTitle(e.target.value),
-        onAuthorChange: (e) => setAuthor(e.target.value),
-        onUrlChange: (e) => setUrl(e.target.value),
-        saveBlog: async (e) => {
-            e.preventDefault()
-            const createdBlog = await blogService.createBlog({ title, url, author }, user.token)
-            const updatedBlogs = blogs.concat(createdBlog)
-            setBlogs(updatedBlogs);
-
-            setDisposableNotification({
-                message: `a new blog ${createdBlog.title} by ${createdBlog.author} added`,
-                success: true
-            })
-
-            setTitle('')
-            setAuthor('')
-            setUrl('')
-        }
+        setDisposableNotification({
+            message: `a new blog ${createdBlog.title} by ${createdBlog.author} added`,
+            success: true
+        })
     }
-
-
-
-    /*
-    Blog form end
-     */
-
-
-
 
 
 
@@ -113,19 +87,21 @@ const App = () => {
         return (
             <>
                 <h2>blogs</h2>
-                <Notification data={notification} />
-                <UserInfo user={user} logout={onLogout} />
-                <CreateBlog blogFormDataHolder={blogFormDataHolder} />
-                <BlogList blogs={blogs} />
+                <Notification data={notification}/>
+                <UserInfo user={user} logout={onLogout}/>
+                <Togglable buttonLabel="create new blog" ref={createBlogRef}>
+                    <CreateBlog saveBlog={saveBlog}/>
+                </Togglable>
+                <BlogList blogs={blogs}/>
             </>
         )
     } else {
         return (
             <>
                 <h3>log in to application</h3>
-                <Notification data={notification} />
+                <Notification data={notification}/>
                 <LoginForm username={username} password={password} onSubmitLoginForm={onSubmitLoginForm}
-                    onPasswordChange={onPasswordChange} onUsernameChange={onUsernameChange} />
+                           onPasswordChange={onPasswordChange} onUsernameChange={onUsernameChange}/>
             </>
         )
     }
