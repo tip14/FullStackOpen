@@ -31,3 +31,9 @@ button:hover {
 div {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.blog {
+    border: 2px solid black;
+    margin: 4px 0 4px 0;
+    padding: 5px;
+}
