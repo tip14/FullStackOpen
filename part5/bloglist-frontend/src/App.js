@@ -81,6 +81,20 @@ const App = () => {
         })
     }
 
+    const addLike = async (blog) => {
+        const blogWithAddedLike = {...blog, likes: blog.likes+1}
+        const updatedBlog = await blogService.updateBlog(blogWithAddedLike, user.token);
+
+        const blogsWithUpdated = blogs.map(b => {
+            if (b.id === updatedBlog.id) {
+                b.likes = updatedBlog.likes
+            }
+            return b;
+        })
+
+        setBlogs(blogsWithUpdated);
+    }
+
 
 
     if (user) {
@@ -92,7 +106,7 @@ const App = () => {
                 <Togglable buttonLabel="create new blog" ref={createBlogRef}>
                     <CreateBlog saveBlog={saveBlog}/>
                 </Togglable>
-                <BlogList blogs={blogs}/>
+                <BlogList blogs={blogs} addLike={addLike}/>
             </>
         )
     } else {
