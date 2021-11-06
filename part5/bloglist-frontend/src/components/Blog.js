@@ -16,7 +16,7 @@ const Blog = ({blog, addLike}) => {
   } else {
     return (
         <div className="blog">
-          {blog.title} {blog.author} <button onClick={toggle}>view</button>
+            {blog.likes} |  {blog.title} {blog.author} <button onClick={toggle}>view</button>
         </div>
     )
   }
