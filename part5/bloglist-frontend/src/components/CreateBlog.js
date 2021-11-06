@@ -1,6 +1,6 @@
-import {useState} from "react";
+import React, { useState } from 'react'
 
-const CreateBlog = ({saveBlog}) => {
+const CreateBlog = ({ saveBlog }) => {
 
     const [title, setTitle] = useState('');
     const [url, setUrl] = useState('');
@@ -12,7 +12,7 @@ const CreateBlog = ({saveBlog}) => {
 
     const addBlog = (e) => {
         e.preventDefault()
-        saveBlog({title, url, author})
+        saveBlog({ title, url, author })
 
         setTitle('')
         setAuthor('')

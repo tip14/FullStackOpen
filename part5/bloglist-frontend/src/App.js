@@ -1,12 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import blogService from './services/blogs'
-import LoginForm from "./components/LoginForm";
-import loginService from "./services/login";
-import BlogList from "./components/BlogList";
-import UserInfo from "./components/UserInfo";
-import CreateBlog from "./components/CreateBlog";
-import Notification from "./components/Notification";
-import Togglable from "./components/Togglable";
+import LoginForm from './components/LoginForm';
+import loginService from './services/login';
+import BlogList from './components/BlogList';
+import UserInfo from './components/UserInfo';
+import CreateBlog from './components/CreateBlog';
+import Notification from './components/Notification';
+import Togglable from './components/Togglable';
 
 
 const App = () => {
@@ -40,7 +40,7 @@ const App = () => {
         event.preventDefault()
 
         try {
-            const user = await loginService.login({username, password});
+            const user = await loginService.login({ username, password });
             if (user) {
                 window.localStorage.setItem('userData', JSON.stringify(user))
                 setUser(user)
@@ -82,7 +82,7 @@ const App = () => {
     }
 
     const addLike = async (blog) => {
-        const blogWithAddedLike = {...blog, likes: blog.likes+1}
+        const blogWithAddedLike = { ...blog, likes: blog.likes+1 }
         const updatedBlog = await blogService.updateBlog(blogWithAddedLike, user.token);
 
         const blogsWithUpdated = blogs.map(b => {
@@ -101,7 +101,7 @@ const App = () => {
             await blogService.deleteBlog(blog.id, user.token)
             const updatedBlogs = blogs.filter(b => b.id !== blog.id);
             setBlogs(updatedBlogs)
-            setDisposableNotification({message:`Blog ${blog.title} by ${blog.author} was removed`, success: true})
+            setDisposableNotification({ message:`Blog ${blog.title} by ${blog.author} was removed`, success: true })
         }
     }
 
@@ -113,7 +113,7 @@ const App = () => {
                 <h2>blogs</h2>
                 <Notification data={notification}/>
                 <UserInfo user={user} logout={onLogout}/>
-                <Togglable buttonLabel="create new blog" ref={createBlogRef}>
+                <Togglable buttonLabel='create new blog' ref={createBlogRef}>
                     <CreateBlog saveBlog={saveBlog}/>
                 </Togglable>
                 <BlogList blogs={blogs} addLike={addLike} removeBlog={removeBlog}/>
@@ -125,7 +125,7 @@ const App = () => {
                 <h3>log in to application</h3>
                 <Notification data={notification}/>
                 <LoginForm username={username} password={password} onSubmitLoginForm={onSubmitLoginForm}
-                           onPasswordChange={onPasswordChange} onUsernameChange={onUsernameChange}/>
+                    onPasswordChange={onPasswordChange} onUsernameChange={onUsernameChange}/>
             </>
         )
     }

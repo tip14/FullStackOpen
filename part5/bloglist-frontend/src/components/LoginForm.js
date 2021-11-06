@@ -1,3 +1,4 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({ onSubmitLoginForm, username, password, onUsernameChange, onPasswordChange }) => {
