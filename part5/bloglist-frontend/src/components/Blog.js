@@ -35,7 +35,7 @@ const Blog = ({ blog, addLike, removeBlog }) => {
     } else {
         return (
             <div className="blog">
-                {blog.likes} | {blog.title} {blog.author}
+                {blog.title} {blog.author}
                 <button onClick={toggle}>view</button>
             </div>
         )
