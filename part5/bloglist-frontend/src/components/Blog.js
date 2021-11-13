@@ -9,7 +9,7 @@ const Blog = ({ blog, addLike, removeBlog }) => {
         const userDataString = window.localStorage.getItem('userData');
         const userData = JSON.parse(userDataString)
 
-        if (blog.user.username === userData.username) {
+        if (userData && blog.user.username === userData.username) {
             return <p>
                 <button className="button_red" onClick={() => removeBlog(blog)}>remove</button>
             </p>;
