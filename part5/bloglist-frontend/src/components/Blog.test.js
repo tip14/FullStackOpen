@@ -21,9 +21,6 @@ test('should render title and author', () => {
 
 })
 
-
-
-
 test('should show all blog details after click', () => {
   const blog = {
     title: 'Blog Title',
@@ -45,5 +42,33 @@ test('should show all blog details after click', () => {
 
   expect(component.container).toHaveTextContent(`${blog.likes}`)
   expect(component.container).toHaveTextContent(`${blog.url}`)
+
+})
+
+test('should recieve two cliks on like button', () => {
+  const blog = {
+    title: 'Blog Title',
+    url: 'https://website.com',
+    author: 'Billy Comp',
+    likes:5,
+    user: {
+      username: 'blogauthor'
+    }
+  }
+
+  const mockAddLike = jest.fn()
+
+  const component = render(
+    <Blog blog={blog} addLike={mockAddLike}/>
+  )
+
+  const viewButton = component.getByText('view')
+  fireEvent.click(viewButton)
+
+  const addLikeButton = component.container.querySelector('.add_like')
+  fireEvent.click(addLikeButton)
+  fireEvent.click(addLikeButton)
+
+  expect(mockAddLike.mock.calls).toHaveLength(2)
 
 })
