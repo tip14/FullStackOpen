@@ -22,9 +22,9 @@ const CreateBlog = ({ saveBlog }) => {
     return (
         <form onSubmit={addBlog}>
             <h2>create new</h2>
-            <p>title: <input type="text" value={title} onChange={onTitleChange}/></p>
-            <p>author: <input type="text" value={author} onChange={onAuthorChange}/></p>
-            <p>url: <input type="text" value={url} onChange={onUrlChange}/></p>
+            <p>title: <input data-testid="title" type="text" value={title} onChange={onTitleChange}/></p>
+            <p>author: <input data-testid="author"  type="text" value={author} onChange={onAuthorChange}/></p>
+            <p>url: <input data-testid="url" type="text" value={url} onChange={onUrlChange}/></p>
             <p>
                 <button type="submit">create</button>
             </p>
