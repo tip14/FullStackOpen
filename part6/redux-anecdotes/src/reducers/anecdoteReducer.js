@@ -19,8 +19,6 @@ const asObject = (anecdote) => {
 
 const sortByVotesDesc = (first, second) => {
 
-  console.log('sor')
-
     if (first.votes > second.votes) {
         return -1
     }
