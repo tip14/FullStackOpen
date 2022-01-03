@@ -31,7 +31,7 @@ const App = () => {
     <div>
       <button onClick={good}>good</button> 
       <button onClick={ok}>ok</button>
-      <button onClick={bad}>bad</button>
+      <button    onClick={bad}>bad</button>
       <button onClick={reset}>reset stats</button>
       <div>good {store.getState().good}</div>
       <div>ok {store.getState().ok}</div>
