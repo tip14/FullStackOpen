@@ -17,6 +17,9 @@ const AnecdoteForm = () => {
         event.preventDefault()
 
         dispatch(createAnecdote(event.target.anecdote.value))
+        dispatch({
+            type: 'SET_NOTIFICATION'
+        })
 
         event.target.anecdote.value = ''
 
