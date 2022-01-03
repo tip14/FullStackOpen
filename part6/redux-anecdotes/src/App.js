@@ -10,15 +10,19 @@ const App = () => {
       dispatch({type: 'VOTE', data: {id}})
   }
 
+  const createAnecdote = (anecdote) => {
+      return {
+          type: 'ADD',
+          data: {
+              anecdote
+          }
+      }
+  }
+
   const add = (event) => {
       event.preventDefault()
 
-      dispatch({
-          type: 'ADD',
-          data: {
-              anecdote: event.target.anecdote.value
-          }
-      })
+      dispatch(createAnecdote(event.target.anecdote.value))
 
       event.target.anecdote.value = ''
 
