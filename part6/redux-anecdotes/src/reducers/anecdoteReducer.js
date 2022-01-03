@@ -31,9 +31,11 @@ const reducer = (state = initialState, action) => {
 
       return a
     })
+  } else if (action.type === 'ADD') {
+    return state.concat(asObject(action.data.anecdote))
   }
 
-  return state
+  return state;
 }
 
 export default reducer
