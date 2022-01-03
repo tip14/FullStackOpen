@@ -23,6 +23,16 @@ const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
+  if (action.type === 'VOTE') {
+    return state.map(a => {
+      if (a.id === action.data.id) {
+        a.votes = ++a.votes
+      }
+
+      return a
+    })
+  }
+
   return state
 }
 
