@@ -22,7 +22,7 @@ const anecdoteReducer = (state = [], action) => {
     if (action.type === 'VOTE') {
         newState = state.map(a => {
             if (a.id === action.data.id) {
-                a.votes = ++a.votes
+                return action.data
             }
 
             return a
@@ -55,6 +55,18 @@ export const initAnecdotes = () => {
             type: 'INIT',
             data: anecdotes
         })
+    }
+}
+
+export const voteAnecdote = (anecdote) => {
+    return async dispatch => {
+        const votedAnecdote = await anecdoteService.vote(anecdote);
+        console.log('vote resp', votedAnecdote)
+        dispatch({
+                type: 'VOTE',
+                data: votedAnecdote
+            }
+        )
     }
 }
 
