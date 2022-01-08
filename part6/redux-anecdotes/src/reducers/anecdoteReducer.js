@@ -1,3 +1,5 @@
+import anecdoteService from "../services/anecdoteService";
+
 const sortByVotesDesc = (first, second) => {
 
     if (first.votes > second.votes) {
@@ -43,10 +45,13 @@ export const createAnecdote = (anecdote) => {
     }
 }
 
-export const initAnecdotes = (anecdotes) => {
-    return {
-        type: 'INIT',
-        data: anecdotes
+export const initAnecdotes = () => {
+    return async dispatch => {
+        const anecdotes = await anecdoteService.getAll();
+        dispatch({
+            type: 'INIT',
+            data: anecdotes
+        })
     }
 }
 
