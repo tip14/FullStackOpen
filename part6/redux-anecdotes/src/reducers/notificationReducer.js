@@ -11,12 +11,15 @@ const notificationReducer = (state = initialState, action) => {
     return state
 }
 
-export const setNotification = (msg) => {
-    return {
-        type: 'SET_NOTIFICATION',
-        data: {
-            msg
-        }
+export const setNotification = (msg, timeout) => {
+    return async dispatch => {
+        dispatch({
+            type: 'SET_NOTIFICATION',
+            data: {
+                msg
+            }
+        })
+        setTimeout(() => dispatch(removeNotification()), timeout * 1000)
     }
 }
 
