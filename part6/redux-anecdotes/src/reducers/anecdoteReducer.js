@@ -1,13 +1,3 @@
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-    return {
-        content: anecdote,
-        id: getId(),
-        votes: 0
-    }
-}
-
 const sortByVotesDesc = (first, second) => {
 
     if (first.votes > second.votes) {
@@ -36,7 +26,7 @@ const anecdoteReducer = (state = [], action) => {
             return a
         })
     } else if (action.type === 'ADD') {
-        newState = state.concat(asObject(action.data.anecdote));
+        newState = state.concat((action.data));
     } else if (action.type === 'INIT') {
         newState = action.data
     } else {
@@ -49,9 +39,7 @@ const anecdoteReducer = (state = [], action) => {
 export const createAnecdote = (anecdote) => {
     return {
         type: 'ADD',
-        data: {
-            anecdote
-        }
+        data: anecdote
     }
 }
 
