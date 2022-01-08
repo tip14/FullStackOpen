@@ -38,10 +38,13 @@ const anecdoteReducer = (state = [], action) => {
     return newState.sort(sortByVotesDesc);
 }
 
-export const createAnecdote = (anecdote) => {
-    return {
-        type: 'ADD',
-        data: anecdote
+export const createAnecdote = (anecdoteText) => {
+    return async dispatch => {
+        const added = await anecdoteService.add(anecdoteText)
+        dispatch({
+            type: 'ADD',
+            data: added
+        })
     }
 }
 
