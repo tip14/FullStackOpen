@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react'
-import AnecdoteForm from "./components/AnecdoteForm";
 import AnecdoteList from "./components/AnecdoteList";
 import ConnectedNotification from "./components/Notification";
-import Filter from "./components/Filter";
+import ConnectedFilter from "./components/ConnectedFilter";
 import {useDispatch} from "react-redux";
 import {initAnecdotes} from "./reducers/anecdoteReducer";
+import ConnectedAnecdoteForm from "./components/AnecdoteForm";
 
 const App = () => {
 
@@ -14,10 +14,10 @@ const App = () => {
     return (
         <div>
             <h2>Anecdotes</h2>
-            <Filter/>
+            <ConnectedFilter/>
             <ConnectedNotification/>
             <AnecdoteList/>
-            <AnecdoteForm/>
+            <ConnectedAnecdoteForm/>
         </div>
     )
 }
