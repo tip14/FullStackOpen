@@ -5,13 +5,14 @@
   "private": true,
   "main": "library-backend.js",
   "scripts": {
-    "start": "node library-backend.js",
+    "start": "nodemon library-backend.js",
     "test": "test"
   },
   "author": "tip14",
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.7.5",
-    "graphql": "^16.7.1"
+    "graphql": "^16.7.1",
+    "nodemon": "^2.0.22"
   }
 }
