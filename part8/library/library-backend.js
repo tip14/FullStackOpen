@@ -171,13 +171,11 @@ const resolvers = {
                 const bookCount = books.filter(book => book.author === author.name).length
                 return {
                     name: author.name,
+                    born: author.born ? author.born : null,
                     bookCount
                 }
             })
         }
-    },
-    Author: {
-        born: (root) => root.born ? root.born : null
     }
 }
 
