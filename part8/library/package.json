@@ -1,0 +1,17 @@
+{
+  "name": "library",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "library-backend.js",
+  "scripts": {
+    "start": "node library-backend.js",
+    "test": "test"
+  },
+  "author": "tip14",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.7.5",
+    "graphql": "^16.7.1"
+  }
+}
