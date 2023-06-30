@@ -107,7 +107,8 @@ const typeDefs = `
   
   type Author {
     name: String!,
-    bookCount: Int!
+    bookCount: Int!,
+    born: Int
   }
   
   type Query {
@@ -160,6 +161,9 @@ const resolvers = {
                 }
             })
         }
+    },
+    Author: {
+        born: (root) => null
     }
 }
 
