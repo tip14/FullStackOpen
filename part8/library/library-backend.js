@@ -116,9 +116,33 @@ const typeDefs = `
     allBooks(author: String, genre: String): [Book!]!,
     allAuthors: [Author!]!
   }
+    
+  type Mutation {
+    addBook(
+        title: String!,
+        published: Int!,
+        author: String!,
+        genres: [String!]!
+    ): Book
+  }
+
 `
 
+const { v1: uuid } = require('uuid')
+
 const resolvers = {
+    Mutation: {
+        addBook: (root, args) => {
+            const book = { ...args, id: uuid() }
+            books = books.concat(book)
+            const author = authors.find(author => author.name === args.author)
+            if (!author) {
+                const newAuthor = { name: args.author, id: uuid() }
+                authors = authors.concat(newAuthor)
+            }
+            return book
+        }
+    },
     Query: {
         bookCount: () => books.length,
         authorCount: () => authors.length,
