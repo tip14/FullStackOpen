@@ -35,7 +35,7 @@ const Authors = (props) => {
         </tbody>
       </table>
 
-        <SetBirthYear />
+        <SetBirthYear authors={authors.map(a => a.name)}/>
     </div>
   )
 }
@@ -65,7 +65,9 @@ const SetBirthYear = (props) => {
         <form onSubmit={onSubmit}>
             <div>
                 name
-                <input type={"text"} value={name} onChange={onNameChange}/>
+                <select type={"text"} onChange={onNameChange}>
+                    {props.authors.map(a => <option key={a} value={a}>{a}</option>)}
+                </select>
             </div>
             <div>
                 born
